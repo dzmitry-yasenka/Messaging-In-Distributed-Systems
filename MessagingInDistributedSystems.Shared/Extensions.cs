@@ -17,6 +17,7 @@ public static class Extensions
         services.AddSingleton<ChannelAccessor>();
         services.AddSingleton<IChannelFactory, ChannelFactory>();
         services.AddSingleton<IMessagePublisher, MessagePublisher>();
+        services.AddSingleton<IMessageSubscriber, MessageSubscriber>();
 
         return services;
     }
