@@ -1,7 +1,10 @@
+using MessagingInDistributedSystems.Funds.Messages;
+using MessagingInDistributedSystems.Shared;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllers();
+builder.Services.AddMessaging();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
@@ -14,10 +17,10 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
+app.MapGet("message/send", async (IMessagePublisher messagePublisher) =>
+{
+    var message = new FundsMessage(123, 10.00m);
+    await messagePublisher.PublishAsync("Funds", "FundsMessage", message);
+});
 
 app.Run();

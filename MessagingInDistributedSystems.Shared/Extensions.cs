@@ -1,4 +1,5 @@
 using MessagingInDistributedSystems.Shared.Connections;
+using MessagingInDistributedSystems.Shared.Publishers;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 
@@ -15,6 +16,7 @@ public static class Extensions
         services.AddSingleton(connection);
         services.AddSingleton<ChannelAccessor>();
         services.AddSingleton<IChannelFactory, ChannelFactory>();
+        services.AddSingleton<IMessagePublisher, MessagePublisher>();
 
         return services;
     }
