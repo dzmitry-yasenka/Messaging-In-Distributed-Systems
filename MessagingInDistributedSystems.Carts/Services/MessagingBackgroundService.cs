@@ -16,13 +16,21 @@ public class MessagingBackgroundService : BackgroundService
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _messageSubscriber.SubscribeMessage<FundsMessage>("Funds", "FundsMessage", "carts-service-funds-message", 
+        _messageSubscriber.SubscribeMessage<FundsMessage>("Funds", "FundsMessage.#", 
+            "carts-service-funds-message-with-many-words-in-routing-key", 
              (message, args) =>
-        {
-            _logger.LogInformation("Received message for customer: {message} with {funds} with RoutingKey = {routingKey}", 
-                message.CustomerId, message.CurrentFunds, args.RoutingKey);
-            return Task.CompletedTask;
-        });
-        
+            {
+                _logger.LogInformation("Received message for customer: {message} with {funds} with RoutingKey = {routingKey}", 
+                    message.CustomerId, message.CurrentFunds, args.RoutingKey);
+                return Task.CompletedTask;
+            });
+        _messageSubscriber.SubscribeMessage<FundsMessage>("Funds", "FundsMessage.*", 
+            "carts-service-funds-message-with-single-word-in-routing-key", 
+            (message, args) =>
+            {
+                _logger.LogInformation("Received message for customer: {message} with {funds} with RoutingKey = {routingKey}", 
+                    message.CustomerId, message.CurrentFunds, args.RoutingKey);
+                return Task.CompletedTask;
+            });
     }
 }

@@ -17,11 +17,13 @@ internal sealed class MessageSubscriber : IMessageSubscriber
     public IMessageSubscriber SubscribeMessage<TMessage>(string exchange, string routingKey, string queue, 
         Func<TMessage, BasicDeliverEventArgs, Task> handler) where TMessage : class, IMessage
     {
-        _channel.QueueDeclare(queue, true, false, false);
+        _channel.ExchangeDeclare(exchange, "topic", false, false, null);
+        
+        _channel.QueueDeclare(queue, false, false, false);
         _channel.QueueBind(queue, exchange, routingKey);
         
         var consumer = new EventingBasicConsumer(_channel);
-        consumer.Received += async (model, basicDeliverEventArgs
+        consumer.Received += async (_, basicDeliverEventArgs
         ) =>
         {
             var message = JsonSerializer.Deserialize<TMessage>(Encoding.UTF8.GetString(basicDeliverEventArgs.Body.ToArray()));

@@ -19,8 +19,8 @@ internal sealed class MessagePublisher : IMessagePublisher
         var body = Encoding.UTF8.GetBytes(JsonSerializer.Serialize(message));
         var properties = _channel.CreateBasicProperties();
         properties.Persistent = true;
-        
-        _channel.ExchangeDeclare(exchange, "topic", true);
+
+        _channel.ExchangeDeclare(exchange, "topic");
         
         _channel.BasicPublish(exchange, routingKey, properties, body);
         return Task.CompletedTask;

@@ -19,10 +19,10 @@ if (app.Environment.IsDevelopment())
 
 app.MapGet("/", () => "Funds Service");
 
-app.MapGet("message/send", async (IMessagePublisher messagePublisher) =>
+app.MapGet("message/send/{routingKey}", async (string routingKey, IMessagePublisher messagePublisher) =>
 {
     var message = new FundsMessage(123, 10.00m);
-    await messagePublisher.PublishAsync("Funds", "FundsMessage", message);
+    await messagePublisher.PublishAsync("Funds", $"FundsMessage.{routingKey}", message);
 });
 
 app.Run();
