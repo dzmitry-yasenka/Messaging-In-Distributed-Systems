@@ -3,7 +3,7 @@ using System.Text.Json;
 using RabbitMQ.Client;
 using RabbitMQ.Client.Events;
 
-namespace MessagingInDistributedSystems.Shared;
+namespace MessagingInDistributedSystems.Shared.Subscribers;
 
 internal sealed class MessageSubscriber : IMessageSubscriber
 {
@@ -20,7 +20,7 @@ internal sealed class MessageSubscriber : IMessageSubscriber
         _channel.QueueDeclare(queue, true, false, false);
         _channel.QueueBind(queue, exchange, routingKey);
         
-        var consumer = new AsyncEventingBasicConsumer(_channel);
+        var consumer = new EventingBasicConsumer(_channel);
         consumer.Received += async (model, basicDeliverEventArgs
         ) =>
         {

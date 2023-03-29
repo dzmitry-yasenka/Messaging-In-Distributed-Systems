@@ -1,5 +1,6 @@
 using MessagingInDistributedSystems.Shared.Connections;
 using MessagingInDistributedSystems.Shared.Publishers;
+using MessagingInDistributedSystems.Shared.Subscribers;
 using Microsoft.Extensions.DependencyInjection;
 using RabbitMQ.Client;
 

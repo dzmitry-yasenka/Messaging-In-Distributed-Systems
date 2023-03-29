@@ -1,9 +1,11 @@
+using MessagingInDistributedSystems.Carts.Services;
 using MessagingInDistributedSystems.Shared;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddMessaging();
+builder.Services.AddHostedService<MessagingBackgroundService>();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
